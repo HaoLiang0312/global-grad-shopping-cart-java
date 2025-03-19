@@ -26,22 +26,48 @@ public class ShoppingCart {
         for (Product product : products) {
             double discount = 0;
 
-            if (product.getProductCode().startsWith("DIS_10")) {
-                discount = (product.getPrice() * 0.1);
-                loyaltyPointsEarned += (product.getPrice() / 10);
-            } else if (product.getProductCode().startsWith("DIS_15")) {
-                discount = (product.getPrice() * 0.15);
-                loyaltyPointsEarned += (product.getPrice() / 15);
-            } else if (product.getProductCode().startsWith("DIS_20")) {
-                discount = (product.getPrice()* 0.2);
-                loyaltyPointsEarned += (product.getPrice()/20);
-            }else if (product.getProductCode().startsWith("BUY2_1Free")) {
-                freeItemCount += 1;
-                freeItemPrice = product.getPrice();
-                loyaltyPointsEarned += (product.getPrice() / 5);
-            }else {
-                loyaltyPointsEarned += (product.getPrice() / 5);
+            // if (product.getProductCode().startsWith("DIS_10")) {
+            //     discount = (product.getPrice() * 0.1);
+            //     loyaltyPointsEarned += (product.getPrice() / 10);
+            // } else if (product.getProductCode().startsWith("DIS_15")) {
+            //     discount = (product.getPrice() * 0.15);
+            //     loyaltyPointsEarned += (product.getPrice() / 15);
+            // } else if (product.getProductCode().startsWith("DIS_20")) {
+            //     discount = (product.getPrice()* 0.2);
+            //     loyaltyPointsEarned += (product.getPrice()/20);
+            // }else if (product.getProductCode().startsWith("BUY2_1Free")) {
+            //     freeItemCount += 1;
+            //     freeItemPrice = product.getPrice();
+            //     loyaltyPointsEarned += (product.getPrice() / 5);
+            // }else {
+            //     loyaltyPointsEarned += (product.getPrice() / 5);
+            // }
+            if (product.getProductCode().length() < 6) {
+                loyaltyPointsEarned += (product.getPrice()/5);
             }
+            else{
+            switch (product.getProductCode().substring(0, 6)) {
+                case "DIS_10": 
+                    discount = (product.getPrice() * 0.1);
+                    loyaltyPointsEarned += (product.getPrice() / 10);
+                    break;
+                case "DIS_15":
+                    discount = (product.getPrice()* 0.15);
+                    loyaltyPointsEarned += (product.getPrice() / 15);
+                    break;
+                case "DIS_20":
+                    discount = (product.getPrice()* 0.2);
+                    loyaltyPointsEarned += (product.getPrice() / 20);
+                    break;
+                case "BUY2_1":
+                    freeItemCount += 1;
+                    freeItemPrice = product.getPrice();
+                    break;
+                default:
+                    loyaltyPointsEarned += (product.getPrice() / 5);
+                    break;
+                }
+            }   
 
             totalPrice += product.getPrice() - discount;
         }
