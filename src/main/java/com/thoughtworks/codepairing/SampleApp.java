@@ -16,6 +16,7 @@ public class SampleApp {
         List<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
+        System.out.println(products);
 
         Customer customer = new Customer("A Customer");
 

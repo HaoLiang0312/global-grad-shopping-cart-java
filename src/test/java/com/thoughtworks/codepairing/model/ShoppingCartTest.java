@@ -72,4 +72,55 @@ public class ShoppingCartTest {
 
         assertEquals(6, order.getLoyaltyPoints());
     }
+    //第一题
+    @Test
+    public void shouldCalculatePriceFor20PercentDiscount() {
+        List<Product> products = List.of(new Product(PRICE, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(80.0, order.getTotalPrice(), 0.0);
+    }
+
+    @Test
+    public void shouldCalculateLoyaltyPointsFor20PercentDiscount() {
+        List<Product> products = List.of(new Product(PRICE, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(5, order.getLoyaltyPoints());
+    }
+
+    //第二题
+    @Test
+    public void shouldCalculatePriceForBuy2Get1Free() {
+        List<Product> products = List.of(new Product(PRICE, "BUY2_1Free_ABCD", PRODUCT),
+        new Product(PRICE, "BUY2_1Free_ABCD", PRODUCT),
+        new Product(PRICE, "BUY2_1Free_ABCD", PRODUCT),
+        new Product(PRICE, "DIS_20_ABCD", PRODUCT)
+        );
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(280.0, order.getTotalPrice(), 0.0);
+    }
+
+    //第三题
+    @Test
+    public void shouldCalculateTotalPriceMoreThan500() {
+        List<Product> products = List.of(
+        new Product(PRICE, "", PRODUCT),
+        new Product(PRICE, "", PRODUCT),
+        new Product(PRICE, "", PRODUCT),
+        new Product(PRICE, "", PRODUCT),
+        new Product(PRICE, "", PRODUCT)
+        );
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(475.0, order.getTotalPrice(), 0.0);
+    }
+
+ 
+
 }

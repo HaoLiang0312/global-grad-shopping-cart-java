@@ -21,4 +21,5 @@ public class Order {
     public String toString() {
         return "Total price: " + totalPrice + "\n" + "Will receive " + loyaltyPoints + " loyalty points";
     }
+
 }
