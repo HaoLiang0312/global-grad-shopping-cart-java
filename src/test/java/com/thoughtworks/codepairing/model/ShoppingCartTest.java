@@ -121,6 +121,71 @@ public class ShoppingCartTest {
         assertEquals(475.0, order.getTotalPrice(), 0.0);
     }
 
- 
+    @Test
+    public void shouldCalculatePriceFor20PercentDiscountPer100() {
+        // 测试价格刚好100的情况
+        List<Product> products1 = List.of(new Product(100, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart1 = new ShoppingCart(customer, products1);
+        Order order1 = cart1.checkout();
+        assertEquals(80.0, order1.getTotalPrice(), 0.0);
+
+        // 测试价格超过100但不到200的情况
+        List<Product> products2 = List.of(new Product(150, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart2 = new ShoppingCart(customer, products2);
+        Order order2 = cart2.checkout();
+        assertEquals(130.0, order2.getTotalPrice(), 0.0);
+
+        // 测试价格刚好200的情况
+        List<Product> products3 = List.of(new Product(200, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart3 = new ShoppingCart(customer, products3);
+        Order order3 = cart3.checkout();
+        assertEquals(160.0, order3.getTotalPrice(), 0.0);
+
+        // 测试价格超过200但不到300的情况
+        List<Product> products4 = List.of(new Product(250, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart4 = new ShoppingCart(customer, products4);
+        Order order4 = cart4.checkout();
+        assertEquals(210.0, order4.getTotalPrice(), 0.0);
+    }
+
+    @Test
+    public void shouldCalculateDiscountForMultipleDIS20Products() {
+        // 测试多个DIS_20商品总价刚好100的情况
+        List<Product> products1 = List.of(
+            new Product(60, "DIS_20_ABCD", PRODUCT),
+            new Product(40, "DIS_20_ABCD", PRODUCT)
+        );
+        ShoppingCart cart1 = new ShoppingCart(customer, products1);
+        Order order1 = cart1.checkout();
+        assertEquals(80.0, order1.getTotalPrice(), 0.0);
+
+        // 测试多个DIS_20商品总价超过100但不到200的情况
+        List<Product> products2 = List.of(
+            new Product(60, "DIS_20_ABCD", PRODUCT),
+            new Product(60, "DIS_20_ABCD", PRODUCT)
+        );
+        ShoppingCart cart2 = new ShoppingCart(customer, products2);
+        Order order2 = cart2.checkout();
+        assertEquals(100.0, order2.getTotalPrice(), 0.0);
+
+        // 测试多个DIS_20商品总价刚好200的情况
+        List<Product> products3 = List.of(
+            new Product(100, "DIS_20_ABCD", PRODUCT),
+            new Product(100, "DIS_20_ABCD", PRODUCT)
+        );
+        ShoppingCart cart3 = new ShoppingCart(customer, products3);
+        Order order3 = cart3.checkout();
+        assertEquals(160.0, order3.getTotalPrice(), 0.0);
+
+        // 测试混合商品的情况
+        List<Product> products4 = List.of(
+            new Product(60, "DIS_20_ABCD", PRODUCT),
+            new Product(60, "DIS_20_ABCD", PRODUCT),
+            new Product(100, "DIS_10_ABCD", PRODUCT)
+        );
+        ShoppingCart cart4 = new ShoppingCart(customer, products4);
+        Order order4 = cart4.checkout();
+        assertEquals(190.0, order4.getTotalPrice(), 0.0);
+    }
 
 }

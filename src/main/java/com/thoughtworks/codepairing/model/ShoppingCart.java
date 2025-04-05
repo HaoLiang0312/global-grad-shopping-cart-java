@@ -21,27 +21,12 @@ public class ShoppingCart {
         double freeItemDiscount = 0;
         int freeItemCount = 0;
         double freeItemPrice = 0;
+        double dis20TotalPrice = 0;  // 用于计算所有DIS_20商品的总价
 
         int loyaltyPointsEarned = 0;
         for (Product product : products) {
             double discount = 0;
 
-            // if (product.getProductCode().startsWith("DIS_10")) {
-            //     discount = (product.getPrice() * 0.1);
-            //     loyaltyPointsEarned += (product.getPrice() / 10);
-            // } else if (product.getProductCode().startsWith("DIS_15")) {
-            //     discount = (product.getPrice() * 0.15);
-            //     loyaltyPointsEarned += (product.getPrice() / 15);
-            // } else if (product.getProductCode().startsWith("DIS_20")) {
-            //     discount = (product.getPrice()* 0.2);
-            //     loyaltyPointsEarned += (product.getPrice()/20);
-            // }else if (product.getProductCode().startsWith("BUY2_1Free")) {
-            //     freeItemCount += 1;
-            //     freeItemPrice = product.getPrice();
-            //     loyaltyPointsEarned += (product.getPrice() / 5);
-            // }else {
-            //     loyaltyPointsEarned += (product.getPrice() / 5);
-            // }
             if (product.getProductCode().length() < 6) {
                 loyaltyPointsEarned += (product.getPrice()/5);
             }
@@ -56,7 +41,8 @@ public class ShoppingCart {
                     loyaltyPointsEarned += (product.getPrice() / 15);
                     break;
                 case "DIS_20":
-                    discount = (product.getPrice()* 0.2);
+                    // 累加所有DIS_20商品的价格
+                    dis20TotalPrice += product.getPrice();
                     loyaltyPointsEarned += (product.getPrice() / 20);
                     break;
                 case "BUY2_1":
@@ -71,6 +57,11 @@ public class ShoppingCart {
 
             totalPrice += product.getPrice() - discount;
         }
+
+        // 计算DIS_20商品的总折扣
+        int fullHundreds = (int)(dis20TotalPrice / 100);
+        double dis20Discount = fullHundreds * 20;
+        totalPrice -= dis20Discount;
 
         freeItemDiscount = freeItemCount / 3 * freeItemPrice;
         totalPrice -= freeItemDiscount;
